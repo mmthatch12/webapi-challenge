@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
         })
 })
 
-router.get('/:id', validateUserId, (req, res) => {
+router.get('/:id', validateProjectId, (req, res) => {
     const id = req.params.id
 
     projectDB.get(id)
@@ -27,7 +27,7 @@ router.get('/:id', validateUserId, (req, res) => {
         
 })
 
-router.get('/:id/action', validateUserId, (req, res) => {
+router.get('/:id/action', validateProjectId, (req, res) => {
     const id = req.params.id
 
     projectDB.getProjectActions(id)
@@ -58,7 +58,7 @@ router.post('/', (req, res) => {
     
 })
 
-router.put('/:id', validateUserId, (req, res) => {
+router.put('/:id', validateProjectId, (req, res) => {
     const id = req.params.id
     const pBody = req.body
 
@@ -76,7 +76,7 @@ router.put('/:id', validateUserId, (req, res) => {
      }     
 })
 
-router.delete('/:id', validateUserId, (req, res) => {
+router.delete('/:id', validateProjectId, (req, res) => {
     const id = req.params.id
 
     projectDB.remove(id)
@@ -92,7 +92,7 @@ router.delete('/:id', validateUserId, (req, res) => {
 
 //Some custom middleware
 
-function validateUserId(req, res, next) {
+function validateProjectId(req, res, next) {
     const id = req.params.id
 
     projectDB.get(id)
