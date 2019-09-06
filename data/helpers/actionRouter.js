@@ -45,6 +45,26 @@ router.post('/:id', (req, res) => {
 })
 
 
+router.put('/:id', validateActionId, (req, res) => {
+    const id = req.params.id
+    const aBody = req.body
+
+
+    if(aBody.description && aBody.notes){
+        actionDB.update(id, aBody)
+            .then(action => {
+                res.status(200).json(action)
+            })
+            .catch(error => {
+                console.log(error)
+              return res.status(500).json({ error: "action could not be updated"})
+            })
+    } else {
+        return res.status(400).json({ message: "Notes and description are required" })
+     } 
+})
+
+
 //Some custom middleware
 
 function validateActionId(req, res, next) {
