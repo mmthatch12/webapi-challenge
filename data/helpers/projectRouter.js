@@ -14,18 +14,12 @@ router.get('/', (req, res) => {
         })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, (req, res) => {
     const id = req.params.id
 
-   
     projectDB.get(id)
         .then(project => {
-            if(project) {
-                res.status(200).json(project)
-            } else {
-              return  res.status(404).json({ message: "Project Id does not exist" })
-            }
-            
+            res.status(200).json(project)  
         })
         .catch(error => {
            return res.status(500).json({ error: "Could not load project"})
@@ -51,14 +45,23 @@ router.post('/', (req, res) => {
     
 })
 
-router.update('/:id', (req, res) => {
+router.put('/:id', validateUserId, (req, res) => {
     const id = req.params.id
     const pBody = req.body
 
-    router.update(id, pBody)
-        .then(project => {
-
-        })
+    if(pBody.name && pBody.description){
+        projectDB.update(id, pBody)
+            .then(project => {
+                res.status(200).json(project)
+            })
+            .catch(error => {
+                console.log(error)
+              return res.status(500).json({ error: "Project could not be updated"})
+            })
+    } else {
+        return res.status(400).json({ message: "Name and description are required" })
+     }
+        
 })
 
 //Some custom middleware
@@ -66,7 +69,7 @@ router.update('/:id', (req, res) => {
 function validateUserId(req, res, next) {
     const id = req.params.id
 
-    userDB.get(id)
+    projectDB.get(id)
         .then(project => {
             if(project) {
                 next()
