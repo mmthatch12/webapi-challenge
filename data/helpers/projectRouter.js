@@ -60,8 +60,21 @@ router.put('/:id', validateUserId, (req, res) => {
             })
     } else {
         return res.status(400).json({ message: "Name and description are required" })
-     }
-        
+     }     
+})
+
+router.delete('/:id', validateUserId, (req, res) => {
+    const id = req.params.id
+
+    projectDB.remove(id)
+        .then(project => {
+            res.status(204).json(project)
+        })
+        .catch(error => {
+            console.log(error)
+          return res.status(500).json({ error: "Project could not be deleted"})
+        })
+
 })
 
 //Some custom middleware
