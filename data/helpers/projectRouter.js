@@ -27,6 +27,19 @@ router.get('/:id', validateUserId, (req, res) => {
         
 })
 
+router.get('/:id/action', validateUserId, (req, res) => {
+    const id = req.params.id
+
+    projectDB.getProjectActions(id)
+        .then(project => {
+            res.status(200).json(project)  
+        })
+        .catch(error => {
+        return res.status(500).json({ error: "Could not load project"})
+        })
+
+})
+
 router.post('/', (req, res) => {
     const pBody = req.body
 
@@ -87,7 +100,7 @@ function validateUserId(req, res, next) {
             if(project) {
                 next()
             } else {
-                res.status(400).json({ message: "invalid project id" })
+                res.status(400).json({ message: "invalid project id or this project has no actions" })
               }
         })
 
