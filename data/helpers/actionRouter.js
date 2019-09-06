@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const actionDB = require('./actionModel')
+const projectDB = require('./projectModel')
 
 router.get('/', (req, res) => {
     actionDB.get()
@@ -23,6 +24,23 @@ router.get('/:id', validateActionId, (req, res) => {
         })
         .catch(error => {
             res.status(500).json({ error: "Could not load projects"})
+        })
+})
+
+router.post('/:id', (req, res) => {
+    const id = req.params.id
+    const aBody = req.body
+
+    projectDB.get(id)
+        .then(project => {
+            actionDB.insert(aBody)
+                .then(action => {
+                    res.status(200).json(action)
+                })
+                .catch(error => {
+                    console.log(error)
+                  return res.status(500).json({ error: "Action could not be added"})
+                })
         })
 })
 
