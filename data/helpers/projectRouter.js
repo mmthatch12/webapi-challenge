@@ -14,6 +14,27 @@ router.get('/', (req, res) => {
         })
 })
 
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+
+   
+    projectDB.get(id)
+        .then(project => {
+            if(project) {
+                res.status(200).json(project)
+            } else {
+                res.status(404).json({ message: "Project Id does not exist" })
+            }
+            
+        })
+        .catch(error => {
+            res.status(500).json({ error: "Could not load project"})
+        })
+        
+})
+
+
+
 
 
 
