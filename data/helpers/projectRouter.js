@@ -23,14 +23,32 @@ router.get('/:id', (req, res) => {
             if(project) {
                 res.status(200).json(project)
             } else {
-                res.status(404).json({ message: "Project Id does not exist" })
+              return  res.status(404).json({ message: "Project Id does not exist" })
             }
             
         })
         .catch(error => {
-            res.status(500).json({ error: "Could not load project"})
+           return res.status(500).json({ error: "Could not load project"})
         })
         
+})
+
+router.post('/', (req, res) => {
+    const pBody = req.body
+
+    if(pBody.name && pBody.description){
+        projectDB.insert(pBody)
+        .then(project => {
+            res.status(201).json(project)
+        })
+        .catch(error => {
+            console.log(error)
+          return res.status(500).json({ error: "Project could not be added"})
+        })
+    } else {
+       return res.status(400).json({ message: "Name and description are required" })
+    }
+    
 })
 
 
