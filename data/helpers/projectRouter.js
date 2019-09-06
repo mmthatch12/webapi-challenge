@@ -51,7 +51,31 @@ router.post('/', (req, res) => {
     
 })
 
+router.update('/:id', (req, res) => {
+    const id = req.params.id
+    const pBody = req.body
 
+    router.update(id, pBody)
+        .then(project => {
+
+        })
+})
+
+//Some custom middleware
+
+function validateUserId(req, res, next) {
+    const id = req.params.id
+
+    userDB.get(id)
+        .then(project => {
+            if(project) {
+                next()
+            } else {
+                res.status(400).json({ message: "invalid project id" })
+              }
+        })
+
+};
 
 
 
