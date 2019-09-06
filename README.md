@@ -26,13 +26,23 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+    I learned about express router and express middleware.
+
 - [ ] Describe Middleware?
+
+    Middleware are functions that can be added to crud operations and they are run in the order they are introduced into the server code. There are different types of middleware including middleware that comes build in with express, third party middleware, and custom made middleware.
 
 - [ ] Describe a Resource?
 
+    A resource is any piece of the data that can be passed to the user or the database. 
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+    The api can return http statuses or different messages.
+
 - [ ] How can we partition our application into sub-applications?
+
+    We can use express router to split up our application, this process is similar to the process we used with react components.
 
 ## Project Setup
 
