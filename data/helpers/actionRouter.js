@@ -57,11 +57,25 @@ router.put('/:id', validateActionId, (req, res) => {
             })
             .catch(error => {
                 console.log(error)
-              return res.status(500).json({ error: "action could not be updated"})
+              return res.status(500).json({ error: "Action could not be updated"})
             })
     } else {
         return res.status(400).json({ message: "Notes and description are required" })
      } 
+})
+
+router.delete('/:id', validateActionId, (req, res) => {
+    const id = req.params.id
+
+    actionDB.remove(id)
+        .then(action => {
+            res.status(204).json(action)
+        })
+        .catch(error => {
+            console.log(error)
+          return res.status(500).json({ error: "Action could not be deleted"})
+        })
+
 })
 
 
